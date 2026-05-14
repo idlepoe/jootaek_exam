@@ -63,7 +63,7 @@ subject, exam_session 정보를 기준으로 current_question_index를 localstor
     "choices": [
       {
         "no": 1,
-        "text": "특정되어 있지 않고 특정할 수도 없는 물건을 매도한 경 우"
+        "text": "특정되어 있지 않고 특정할 수도 없는 물건을 매도한 경우"
       },
       {
         "no": 2,
@@ -79,7 +79,7 @@ subject, exam_session 정보를 기준으로 current_question_index를 localstor
       },
       {
         "no": 5,
-        "text": "甲이 자신의 토지를 乙에게 매도한 후 丙의 대리인 丁이 甲의 배임행위에 적극 가담하여 그 토지를 이중으로 매 수하였으나 丙이 그 사정을 알지 못한 경우, 甲과 丙사 이의 매매계약"
+        "text": "甲이 자신의 토지를 乙에게 매도한 후 丙의 대리인 丁이 甲의 배임행위에 적극 가담하여 그 토지를 이중으로 매수하였으나 丙이 그 사정을 알지 못한 경우, 甲과 丙사 이의 매매계약"
       }
     ],
     "correct_answer": 4

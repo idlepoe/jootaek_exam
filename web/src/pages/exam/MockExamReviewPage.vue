@@ -7,9 +7,6 @@
         {{ displayIndex }}. {{ current.question_text }}
       </div>
       <ExamOptionalRemoteImage :src="examQuestionImageUrl(current.id)" />
-      <div class="text-body2 text-grey-9 q-mb-md">
-        선택: {{ selectedLabel }} · 정답: {{ correctLabel }}
-      </div>
       <div class="column q-gutter-sm q-mb-lg">
         <q-card
           v-for="c in current.choices"
@@ -131,17 +128,6 @@ const userAnswer = computed(() => {
   const q = current.value;
   if (!q) return null;
   return answers.value[index.value] ?? null;
-});
-
-const selectedLabel = computed(() => {
-  const a = userAnswer.value;
-  return a == null ? '미작성' : String(a);
-});
-
-const correctLabel = computed(() => {
-  const q = current.value;
-  if (!q) return '—';
-  return String(q.correct_answer);
 });
 
 function choiceCardClass(no: number): string | Record<string, boolean> {
