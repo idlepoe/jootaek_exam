@@ -1,1 +1,88 @@
 // app global css
+:root {
+  --app-max-width: 720px;
+  --exam-correct-bg: #ffcdd2;
+}
+
+body {
+  background-color: #f0f0f0;
+}
+
+.body--dark body {
+  background-color: #121212;
+}
+
+/* 본문 컬럼: 최대 720px 가운데 */
+#app-shell {
+  position: relative;
+  max-width: var(--app-max-width);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.body--dark #app-shell {
+  background-color: #1e1e1e;
+  color: #eee;
+}
+
+/* 회독·모의고사 문제 본문 글자 크기 (옵션) */
+.exam-question-text--sm {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+.exam-question-text--md {
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.exam-question-text--lg {
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+.exam-question-text--xl {
+  font-size: 1.1875rem;
+  line-height: 1.45;
+}
+.exam-question-text--max {
+  font-size: 1.3125rem;
+  line-height: 1.45;
+}
+
+/* 하단 스티키 툴바 높이 */
+.exam-page-sticky-toolbar {
+  box-sizing: border-box;
+}
+.exam-page-sticky-toolbar--normal {
+  min-height: 48px;
+}
+.exam-page-sticky-toolbar--large {
+  min-height: 56px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.exam-page-sticky-toolbar--xlarge {
+  min-height: 64px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* 정답 하이라이트 (Quasar bg-green-2 대체) */
+.exam-correct-highlight {
+  background-color: var(--exam-correct-bg, #ffcdd2) !important;
+}
+
+/*
+ * Quasar q-header / q-page-sticky 는 position:fixed 로 뷰포트 전폭을 씀.
+ * 앱 셸과 동일한 최대 720px 박스로 가운데 정렬 (transform 미사용).
+ */
+#app-shell .q-header,
+#app-shell .q-page-sticky {
+  --_bar-w: min(var(--app-max-width), 100vw);
+  width: var(--_bar-w) !important;
+  max-width: var(--app-max-width) !important;
+  left: calc((100vw - var(--_bar-w)) / 2) !important;
+  right: auto !important;
+  box-sizing: border-box;
+}

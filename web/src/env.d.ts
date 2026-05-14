@@ -5,3 +5,12 @@ declare namespace NodeJS {
     VUE_ROUTER_BASE: string | undefined;
   }
 }
+
+interface ImportMetaEnv {
+  /** GitHub Raw 루트 (예: https://raw.githubusercontent.com/owner/repo/main) */
+  readonly VITE_EXAM_RAW_BASE?: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
