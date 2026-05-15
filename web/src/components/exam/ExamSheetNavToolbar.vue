@@ -1,27 +1,29 @@
 <template>
   <q-toolbar
-    class="bg-white text-grey-9 q-px-none q-py-none exam-page-sticky-toolbar exam-sheet-nav-toolbar-inner"
+    class="text-grey-9 exam-page-sticky-toolbar exam-sheet-nav-toolbar-inner"
     :class="stickyToolbarHeightClass"
   >
     <template v-if="stickyButtonOrder === 'prev-next'">
       <q-btn
-        unelevated
+        :outline="isDarkNav"
+        :unelevated="!isDarkNav"
         no-caps
         class="col"
         :size="navBtnSize"
-        color="grey-3"
-        text-color="grey-9"
+        :color="prevBtnColor"
+        :text-color="prevBtnTextColor"
         label="이전"
         :disable="prevDisabled"
         @click="emit('prev')"
       />
       <q-btn
-        unelevated
+        :outline="isDarkNav"
+        :unelevated="!isDarkNav"
         no-caps
         class="col"
         :size="navBtnSize"
         color="primary"
-        text-color="white"
+        :text-color="isDarkNav ? undefined : 'white'"
         label="다음"
         :disable="nextDisabled"
         @click="emit('next')"
@@ -29,23 +31,25 @@
     </template>
     <template v-else>
       <q-btn
-        unelevated
+        :outline="isDarkNav"
+        :unelevated="!isDarkNav"
         no-caps
         class="col"
         :size="navBtnSize"
         color="primary"
-        text-color="white"
+        :text-color="isDarkNav ? undefined : 'white'"
         label="다음"
         :disable="nextDisabled"
         @click="emit('next')"
       />
       <q-btn
-        unelevated
+        :outline="isDarkNav"
+        :unelevated="!isDarkNav"
         no-caps
         class="col"
         :size="navBtnSize"
-        color="grey-3"
-        text-color="grey-9"
+        :color="prevBtnColor"
+        :text-color="prevBtnTextColor"
         label="이전"
         :disable="prevDisabled"
         @click="emit('prev')"
@@ -56,6 +60,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
 import { useExamUserOptionsStore } from 'stores/exam-user-options';
 
@@ -68,6 +73,12 @@ const emit = defineEmits<{
   prev: [];
   next: [];
 }>();
+
+const $q = useQuasar();
+const isDarkNav = computed(() => $q.dark.isActive);
+
+const prevBtnColor = computed(() => (isDarkNav.value ? 'grey-5' : 'grey-3'));
+const prevBtnTextColor = computed(() => (isDarkNav.value ? 'grey-2' : 'grey-9'));
 
 const examUserOpts = useExamUserOptionsStore();
 const { stickyButtonHeight, stickyButtonOrder } = storeToRefs(examUserOpts);
@@ -92,8 +103,10 @@ const navBtnSize = computed(() => {
 <style scoped>
 .exam-sheet-nav-toolbar-inner {
   box-shadow: none !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background-color: transparent !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  gap: 10px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 }
 </style>

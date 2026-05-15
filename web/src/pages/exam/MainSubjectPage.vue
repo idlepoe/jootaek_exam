@@ -125,7 +125,7 @@
           </div>
         </q-card-section>
       </q-card>
-      <div v-if="mockHistory.length === 0" class="text-body2 text-grey-7">
+      <div v-if="mockHistory.length === 0" class="text-body2 text-grey-7 mock-history-empty">
         저장된 모의고사 이력이 없습니다.
       </div>
     </div>
@@ -348,3 +348,27 @@ onUnmounted(() => {
   }
 });
 </script>
+
+<style scoped>
+/* 모의고사 이력 카드: 다크에서 회색 유틸 대비·카드 배경 */
+.body--dark .mock-history-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.body--dark .mock-history-card:hover {
+  background-color: rgba(255, 255, 255, 0.09);
+}
+
+.body--dark .mock-history-card .text-grey-9 {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.body--dark .mock-history-card .text-subtitle1 {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.body--dark .mock-history-empty {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+</style>

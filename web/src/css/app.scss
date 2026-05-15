@@ -1,9 +1,12 @@
 // app global css
 :root {
   --app-max-width: 720px;
-  /* 고정 intro 레일 폭(표시 시). 본문은 항상 뷰포트 정중앙 — 레일은 왼쪽 여백에만 둠 */
-  --app-intro-rail-w: 580px;
-  --exam-correct-bg: #ffcdd2;
+  /* 인트로 레일: 왼쪽 여백 안에서만 가변 폭(중앙 본문과 절대 겹치지 않음). 넓은 화면에서의 상한 */
+  --app-intro-rail-max-w: 400px;
+  --exam-correct-bg: #ffcccc;
+  --exam-correct-text: #ffffff;
+  --exam-pick-choice-bg: #1565c0;
+  --exam-pick-choice-text: #ffffff;
 }
 
 body {
@@ -23,25 +26,27 @@ body {
   box-sizing: border-box;
 }
 
-/* 왼쪽 여백: 본문 흐름과 무관하게 뷰포트 왼쪽에 고정 */
+/* 왼쪽 여백: 본문(정중앙 720px)과 겹치지 않게, 남는 왼쪽만큼만 가변 폭 */
 .app-intro-rail {
+  --_intro-margin: max(0px, calc(50% - var(--app-max-width) / 2));
   display: none;
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
   z-index: 100;
-  width: var(--app-intro-rail-w);
-  max-width: min(var(--app-intro-rail-w), calc((100vw - var(--app-max-width)) / 2));
+  width: min(var(--app-intro-rail-max-w), var(--_intro-margin));
+  min-width: 0;
+  max-width: min(var(--app-intro-rail-max-w), var(--_intro-margin));
   box-sizing: border-box;
   overflow: hidden;
 }
 
-@media (min-width: 1280px) {
+/* 왼쪽 여백이 너무 좁으면 레일 숨김(960px → 여백 ≥ 120px) */
+@media (min-width: 960px) {
   .app-intro-rail {
     display: flex;
     flex-direction: column;
-    max-width: var(--app-intro-rail-w);
   }
 }
 
@@ -106,9 +111,29 @@ body {
   padding-bottom: 10px;
 }
 
-/* 정답 하이라이트 (Quasar bg-green-2 대체) */
+/* 정답 하이라이트 (배경·글자색은 옵션 CSS 변수) */
 .exam-correct-highlight {
-  background-color: var(--exam-correct-bg, #ffcdd2) !important;
+  background-color: var(--exam-correct-bg, #ffcccc) !important;
+  color: var(--exam-correct-text, #ffffff) !important;
+}
+
+.exam-correct-highlight .text-body1,
+.exam-correct-highlight .text-body2 {
+  color: inherit !important;
+}
+
+/* 모의고사: 선택한 보기(pickChoice) 배경·글자색 */
+.exam-mock-choice-pending,
+.exam-mock-choice-selected {
+  background-color: var(--exam-pick-choice-bg, #1565c0) !important;
+  color: var(--exam-pick-choice-text, #ffffff) !important;
+}
+
+.exam-mock-choice-pending .text-body1,
+.exam-mock-choice-pending .text-body2,
+.exam-mock-choice-selected .text-body1,
+.exam-mock-choice-selected .text-body2 {
+  color: inherit !important;
 }
 
 /*

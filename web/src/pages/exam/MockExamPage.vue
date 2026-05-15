@@ -17,7 +17,7 @@
           :class="choiceCardClass(c.no)"
           @click="pickChoice(c.no)"
         >
-          <div class="text-body2">
+          <div :class="choiceTextClass">
             <span class="text-weight-bold">{{ c.no }}.</span>
             {{ c.text }}
           </div>
@@ -114,6 +114,8 @@ const questionTextClass = computed(
   () => `text-body1 exam-question-text--${questionTextSize.value}`,
 );
 
+const choiceTextClass = computed(() => `text-body2 exam-question-text--${questionTextSize.value}`);
+
 const loading = ref(true);
 const loadError = ref('');
 const questions = ref<ExamQuestion[]>([]);
@@ -170,8 +172,8 @@ watch(
 
 function choiceCardClass(no: number): string | Record<string, boolean> {
   const sel = answers.value[currentIndex.value];
-  if (pendingChoice.value === no) return 'bg-blue-2';
-  if (sel === no) return 'bg-blue-1';
+  if (pendingChoice.value === no) return 'exam-mock-choice-pending';
+  if (sel === no) return 'exam-mock-choice-selected';
   return '';
 }
 
@@ -252,7 +254,7 @@ function openExamEndDialogs() {
   } else {
     $q.dialog({
       title: '안내',
-      message: '시험을 종료하시겠습니까?',
+      message: '답안을 제출하시겠습니까?',
       persistent: true,
       ok: {
         label: '확인',
@@ -265,9 +267,7 @@ function openExamEndDialogs() {
         noCaps: true,
       },
     }).onOk(() => {
-      clearCurrentMockExam();
-      mockToolbar.clearToolbar();
-      void router.push({ name: 'exam-main' });
+      showScoreAndFinish();
     });
   }
 }

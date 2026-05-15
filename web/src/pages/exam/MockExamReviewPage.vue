@@ -16,7 +16,7 @@
           class="q-pa-md"
           :class="choiceCardClass(c.no)"
         >
-          <div class="text-body2">
+          <div :class="choiceTextClass">
             <span class="text-weight-bold">{{ c.no }}.</span>
             {{ c.text }}
           </div>
@@ -73,6 +73,8 @@ const { questionTextSize } = storeToRefs(examUserOpts);
 const questionTextClass = computed(
   () => `text-body1 exam-question-text--${questionTextSize.value}`,
 );
+
+const choiceTextClass = computed(() => `text-body2 exam-question-text--${questionTextSize.value}`);
 
 const loading = ref(true);
 const loadError = ref('');

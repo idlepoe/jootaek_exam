@@ -10,6 +10,12 @@ export type StickyButtonOrder = 'prev-next' | 'next-prev';
 export interface ExamUserOptions {
   themeMode: ExamThemeMode;
   correctHighlightHex: string;
+  /** 정답 하이라이트 영역 글자 색 */
+  correctHighlightTextHex: string;
+  /** 모의고사 풀이 시 선택한 보기 카드 배경(pickChoice) */
+  pickChoiceHighlightHex: string;
+  /** 모의고사 풀이 시 선택한 보기 카드 글자 색 */
+  pickChoiceHighlightTextHex: string;
   stickyButtonHeight: StickyButtonHeight;
   questionTextSize: QuestionTextSize;
   stickyButtonOrder: StickyButtonOrder;
@@ -17,7 +23,10 @@ export interface ExamUserOptions {
 
 export const DEFAULT_EXAM_USER_OPTIONS: ExamUserOptions = {
   themeMode: 'system',
-  correctHighlightHex: '#ffcdd2',
+  correctHighlightHex: '#ffcccc',
+  correctHighlightTextHex: '#ffffff',
+  pickChoiceHighlightHex: '#1565c0',
+  pickChoiceHighlightTextHex: '#ffffff',
   stickyButtonHeight: 'normal',
   questionTextSize: 'md',
   stickyButtonOrder: 'prev-next',
@@ -58,8 +67,26 @@ function coerceButtonOrder(v: unknown): StickyButtonOrder {
     : DEFAULT_EXAM_USER_OPTIONS.stickyButtonOrder;
 }
 
-function coerceHex(v: unknown): string {
+function coerceCorrectHex(v: unknown): string {
   return typeof v === 'string' && isValidHex(v) ? v : DEFAULT_EXAM_USER_OPTIONS.correctHighlightHex;
+}
+
+function coerceCorrectTextHex(v: unknown): string {
+  return typeof v === 'string' && isValidHex(v)
+    ? v
+    : DEFAULT_EXAM_USER_OPTIONS.correctHighlightTextHex;
+}
+
+function coercePickHex(v: unknown): string {
+  return typeof v === 'string' && isValidHex(v)
+    ? v
+    : DEFAULT_EXAM_USER_OPTIONS.pickChoiceHighlightHex;
+}
+
+function coercePickTextHex(v: unknown): string {
+  return typeof v === 'string' && isValidHex(v)
+    ? v
+    : DEFAULT_EXAM_USER_OPTIONS.pickChoiceHighlightTextHex;
 }
 
 /** LS 및 부분 객체를 기본값과 병합해 정규화합니다. */
@@ -69,7 +96,10 @@ export function normalizeExamUserOptions(
   const p = partial ?? {};
   return {
     themeMode: coerceThemeMode(p.themeMode),
-    correctHighlightHex: coerceHex(p.correctHighlightHex),
+    correctHighlightHex: coerceCorrectHex(p.correctHighlightHex),
+    correctHighlightTextHex: coerceCorrectTextHex(p.correctHighlightTextHex),
+    pickChoiceHighlightHex: coercePickHex(p.pickChoiceHighlightHex),
+    pickChoiceHighlightTextHex: coercePickTextHex(p.pickChoiceHighlightTextHex),
     stickyButtonHeight: coerceStickyHeight(p.stickyButtonHeight),
     questionTextSize: coerceTextSize(p.questionTextSize),
     stickyButtonOrder: coerceButtonOrder(p.stickyButtonOrder),
@@ -124,5 +154,8 @@ export function syncExamUserOptionsToDom(opts: ExamUserOptions): void {
   const root = typeof document !== 'undefined' ? document.documentElement : null;
   if (root) {
     root.style.setProperty('--exam-correct-bg', opts.correctHighlightHex);
+    root.style.setProperty('--exam-correct-text', opts.correctHighlightTextHex);
+    root.style.setProperty('--exam-pick-choice-bg', opts.pickChoiceHighlightHex);
+    root.style.setProperty('--exam-pick-choice-text', opts.pickChoiceHighlightTextHex);
   }
 }

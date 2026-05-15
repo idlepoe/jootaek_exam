@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" class="fit">
-    <q-header elevated class="bg-primary text-white">
+    <q-header class="bg-primary text-white">
       <q-toolbar class="items-start q-py-sm">
         <q-btn
           v-if="showBack"

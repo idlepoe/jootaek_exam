@@ -21,16 +21,64 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable @click="openColorDialog">
+      <q-item clickable @click="openCorrectColorDialog">
         <q-item-section>
-          <q-item-label>정답 하이라이트 색</q-item-label>
-          <q-item-label caption>답안지·모의복습에서 정답 배경에 사용합니다.</q-item-label>
+          <q-item-label>정답 하이라이트 배경</q-item-label>
+          <q-item-label caption>답안지·모의복습에서 정답 보기 카드 배경에 사용합니다.</q-item-label>
         </q-item-section>
         <q-item-section side>
           <div class="row items-center q-gutter-sm no-wrap">
             <div
               class="exam-options-swatch exam-options-swatch--fixed-palette rounded-borders"
               :style="{ backgroundColor: correctHighlightHex }"
+            />
+            <q-icon name="chevron_right" color="grey-6" />
+          </div>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable @click="openCorrectTextColorDialog">
+        <q-item-section>
+          <q-item-label>정답 하이라이트 글자 색</q-item-label>
+          <q-item-label caption>정답으로 표시된 보기 안의 글자 색입니다.</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <div class="row items-center q-gutter-sm no-wrap">
+            <div
+              class="exam-options-swatch exam-options-swatch--fixed-palette rounded-borders"
+              :style="{ backgroundColor: correctHighlightTextHex }"
+            />
+            <q-icon name="chevron_right" color="grey-6" />
+          </div>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable @click="openPickChoiceColorDialog">
+        <q-item-section>
+          <q-item-label>모의고사 선택 보기 배경</q-item-label>
+          <q-item-label caption>모의고사 풀이에서 선택한 보기 카드 배경에 사용합니다.</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <div class="row items-center q-gutter-sm no-wrap">
+            <div
+              class="exam-options-swatch exam-options-swatch--fixed-palette rounded-borders"
+              :style="{ backgroundColor: pickChoiceHighlightHex }"
+            />
+            <q-icon name="chevron_right" color="grey-6" />
+          </div>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable @click="openPickChoiceTextColorDialog">
+        <q-item-section>
+          <q-item-label>모의고사 선택 보기 글자 색</q-item-label>
+          <q-item-label caption>선택한 보기 카드 안의 글자 색입니다.</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <div class="row items-center q-gutter-sm no-wrap">
+            <div
+              class="exam-options-swatch exam-options-swatch--fixed-palette rounded-borders"
+              :style="{ backgroundColor: pickChoiceHighlightTextHex }"
             />
             <q-icon name="chevron_right" color="grey-6" />
           </div>
@@ -108,15 +156,21 @@
           </div>
           <div class="column q-gutter-sm">
             <q-card flat bordered class="q-pa-md">
-              <div class="text-body2">
+              <div :class="choiceTextClass">
                 <span class="text-weight-bold">1.</span>
                 첫 번째 보기 문장입니다.
               </div>
             </q-card>
             <q-card flat bordered class="q-pa-md exam-correct-highlight">
-              <div class="text-body2">
+              <div :class="choiceTextClass">
                 <span class="text-weight-bold">2.</span>
-                정답 보기(위에서 고른 하이라이트 색)
+                정답 보기(배경·글자 색)
+              </div>
+            </q-card>
+            <q-card flat bordered class="q-pa-md exam-mock-choice-selected">
+              <div :class="choiceTextClass">
+                <span class="text-weight-bold">3.</span>
+                모의고사에서 고른 보기(배경·글자 색)
               </div>
             </q-card>
           </div>
@@ -134,7 +188,7 @@
 
     <q-dialog v-model="colorDialogOpen">
       <q-card class="bg-white text-grey-9 exam-options-color-dialog" style="min-width: 280px">
-        <q-card-section class="text-h6">정답 색 선택</q-card-section>
+        <q-card-section class="text-h6">{{ colorDialogTitle }}</q-card-section>
         <q-card-section class="q-pt-none">
           <q-color v-model="colorDraft" default-view="palette" format-model="hex" :dark="false" />
         </q-card-section>
@@ -160,12 +214,53 @@ import { useExamUserOptionsStore } from 'stores/exam-user-options';
 import ExamSheetNavToolbar from 'src/components/exam/ExamSheetNavToolbar.vue';
 
 const store = useExamUserOptionsStore();
-const { themeMode, correctHighlightHex, stickyButtonHeight, questionTextSize, stickyButtonOrder } =
-  storeToRefs(store);
+const {
+  themeMode,
+  correctHighlightHex,
+  correctHighlightTextHex,
+  pickChoiceHighlightHex,
+  pickChoiceHighlightTextHex,
+  stickyButtonHeight,
+  questionTextSize,
+  stickyButtonOrder,
+} = storeToRefs(store);
 
 const questionTextClass = computed(
   () => `text-body1 exam-question-text--${questionTextSize.value}`,
 );
+
+const choiceTextClass = computed(() => `text-body2 exam-question-text--${questionTextSize.value}`);
+
+const colorDialogKind = ref<'correct' | 'correctText' | 'pick' | 'pickText'>('correct');
+const colorDialogTitle = computed(() => {
+  switch (colorDialogKind.value) {
+    case 'correct':
+      return '정답 하이라이트 배경';
+    case 'correctText':
+      return '정답 하이라이트 글자 색';
+    case 'pick':
+      return '모의고사 선택 보기 배경';
+    case 'pickText':
+      return '모의고사 선택 보기 글자 색';
+    default:
+      return '';
+  }
+});
+
+const colorDialogFallbackHex = computed(() => {
+  switch (colorDialogKind.value) {
+    case 'correct':
+      return correctHighlightHex.value;
+    case 'correctText':
+      return correctHighlightTextHex.value;
+    case 'pick':
+      return pickChoiceHighlightHex.value;
+    case 'pickText':
+      return pickChoiceHighlightTextHex.value;
+    default:
+      return correctHighlightHex.value;
+  }
+});
 
 const themeOptions = [
   { label: '시스템', value: 'system' as ExamThemeMode },
@@ -195,8 +290,10 @@ const orderOptions = [
 const colorDialogOpen = ref(false);
 const colorDraft = ref(correctHighlightHex.value);
 
-watch(correctHighlightHex, (v) => {
-  colorDraft.value = v;
+watch(colorDialogOpen, (open) => {
+  if (open) {
+    colorDraft.value = colorDialogFallbackHex.value;
+  }
 });
 
 function onThemeChange(v: ExamThemeMode) {
@@ -219,8 +316,27 @@ function onSheetPreviewNav() {
   /* 답안지 레이아웃 미리보기: 문항 이동 없음 */
 }
 
-function openColorDialog() {
+function openCorrectColorDialog() {
+  colorDialogKind.value = 'correct';
   colorDraft.value = correctHighlightHex.value;
+  colorDialogOpen.value = true;
+}
+
+function openCorrectTextColorDialog() {
+  colorDialogKind.value = 'correctText';
+  colorDraft.value = correctHighlightTextHex.value;
+  colorDialogOpen.value = true;
+}
+
+function openPickChoiceTextColorDialog() {
+  colorDialogKind.value = 'pickText';
+  colorDraft.value = pickChoiceHighlightTextHex.value;
+  colorDialogOpen.value = true;
+}
+
+function openPickChoiceColorDialog() {
+  colorDialogKind.value = 'pick';
+  colorDraft.value = pickChoiceHighlightHex.value;
   colorDialogOpen.value = true;
 }
 
@@ -236,12 +352,20 @@ function normalizeHexFromColor(v: string | Record<string, unknown>): string {
         .padStart(2, '0');
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   }
-  return correctHighlightHex.value;
+  return colorDialogFallbackHex.value;
 }
 
 function confirmColor() {
   const hex = normalizeHexFromColor(colorDraft.value as string | Record<string, unknown>);
-  store.patchAndPersist({ correctHighlightHex: hex });
+  if (colorDialogKind.value === 'correct') {
+    store.patchAndPersist({ correctHighlightHex: hex });
+  } else if (colorDialogKind.value === 'correctText') {
+    store.patchAndPersist({ correctHighlightTextHex: hex });
+  } else if (colorDialogKind.value === 'pick') {
+    store.patchAndPersist({ pickChoiceHighlightHex: hex });
+  } else {
+    store.patchAndPersist({ pickChoiceHighlightTextHex: hex });
+  }
   colorDialogOpen.value = false;
 }
 </script>

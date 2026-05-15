@@ -12,6 +12,9 @@ function assignFromOptions(
   target: {
     themeMode: ReturnType<typeof ref<ExamUserOptions['themeMode']>>;
     correctHighlightHex: ReturnType<typeof ref<string>>;
+    correctHighlightTextHex: ReturnType<typeof ref<string>>;
+    pickChoiceHighlightHex: ReturnType<typeof ref<string>>;
+    pickChoiceHighlightTextHex: ReturnType<typeof ref<string>>;
     stickyButtonHeight: ReturnType<typeof ref<ExamUserOptions['stickyButtonHeight']>>;
     questionTextSize: ReturnType<typeof ref<ExamUserOptions['questionTextSize']>>;
     stickyButtonOrder: ReturnType<typeof ref<ExamUserOptions['stickyButtonOrder']>>;
@@ -20,6 +23,9 @@ function assignFromOptions(
 ) {
   target.themeMode.value = o.themeMode;
   target.correctHighlightHex.value = o.correctHighlightHex;
+  target.correctHighlightTextHex.value = o.correctHighlightTextHex;
+  target.pickChoiceHighlightHex.value = o.pickChoiceHighlightHex;
+  target.pickChoiceHighlightTextHex.value = o.pickChoiceHighlightTextHex;
   target.stickyButtonHeight.value = o.stickyButtonHeight;
   target.questionTextSize.value = o.questionTextSize;
   target.stickyButtonOrder.value = o.stickyButtonOrder;
@@ -30,6 +36,9 @@ export const useExamUserOptionsStore = defineStore('examUserOptions', () => {
 
   const themeMode = ref(initial.themeMode);
   const correctHighlightHex = ref(initial.correctHighlightHex);
+  const correctHighlightTextHex = ref(initial.correctHighlightTextHex);
+  const pickChoiceHighlightHex = ref(initial.pickChoiceHighlightHex);
+  const pickChoiceHighlightTextHex = ref(initial.pickChoiceHighlightTextHex);
   const stickyButtonHeight = ref(initial.stickyButtonHeight);
   const questionTextSize = ref(initial.questionTextSize);
   const stickyButtonOrder = ref(initial.stickyButtonOrder);
@@ -37,6 +46,9 @@ export const useExamUserOptionsStore = defineStore('examUserOptions', () => {
   const refs = {
     themeMode,
     correctHighlightHex,
+    correctHighlightTextHex,
+    pickChoiceHighlightHex,
+    pickChoiceHighlightTextHex,
     stickyButtonHeight,
     questionTextSize,
     stickyButtonOrder,
@@ -46,6 +58,9 @@ export const useExamUserOptionsStore = defineStore('examUserOptions', () => {
     return {
       themeMode: themeMode.value,
       correctHighlightHex: correctHighlightHex.value,
+      correctHighlightTextHex: correctHighlightTextHex.value,
+      pickChoiceHighlightHex: pickChoiceHighlightHex.value,
+      pickChoiceHighlightTextHex: pickChoiceHighlightTextHex.value,
       stickyButtonHeight: stickyButtonHeight.value,
       questionTextSize: questionTextSize.value,
       stickyButtonOrder: stickyButtonOrder.value,
@@ -68,6 +83,9 @@ export const useExamUserOptionsStore = defineStore('examUserOptions', () => {
   return {
     themeMode,
     correctHighlightHex,
+    correctHighlightTextHex,
+    pickChoiceHighlightHex,
+    pickChoiceHighlightTextHex,
     stickyButtonHeight,
     questionTextSize,
     stickyButtonOrder,

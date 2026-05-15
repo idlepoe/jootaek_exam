@@ -66,11 +66,36 @@
 
 <style scoped>
 .exam-app-intro-rail {
-  background-color: #eceff1;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.87);
 }
 .body--dark .exam-app-intro-rail {
-  background-color: #2a2a2a;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.88);
 }
+
+/* 라이트: Quasar grey 유틸 유지. 다크: 라이트용 grey가 배경과 겹침 → 명시적 대비 */
+.body--dark .exam-app-intro-rail .text-grey-8,
+.body--dark .exam-app-intro-rail .text-grey-9 {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.body--dark .exam-app-intro-rail .text-h6 {
+  color: #fff !important;
+}
+
+.body--dark .exam-app-intro-rail .text-subtitle2 {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.body--dark .exam-app-intro-rail strong {
+  color: #fff;
+}
+
+.body--dark .exam-app-intro-rail .text-primary {
+  color: var(--q-primary) !important;
+}
+
 .exam-app-intro-rail__inner {
   max-width: 100%;
 }
