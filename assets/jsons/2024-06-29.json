@@ -3074,7 +3074,7 @@
     "exam_session": "2024-06-29",
     "subject": "공동주택시설개론",
     "question_number": 100,
-    "question_text": "건축물 주요실의 기본등분포활하중(kN/m2)의 크기가 가장 작은 것은?",
+    "question_text": "건축물 주요실의 기본등분포활하중(kN/m²)의 크기가 가장 작은 것은?",
     "choices": [
       {
         "no": 1,
@@ -3663,7 +3663,7 @@
     "exam_session": "2024-06-29",
     "subject": "공동주택시설개론",
     "question_number": 119,
-    "question_text": "열관류저항이 3.5 m2ㆍK/W인 기존 벽체에 열전도율 0.04 W/mㆍK인 두께 60 mm의 단열재를 보강하였다. 이 때 단 열이 보강된 벽체의 열관류율(W/m2ㆍK)은?",
+    "question_text": "열관류저항이 3.5 m²ㆍK/W인 기존 벽체에 열전도율 0.04 W/mㆍK인 두께 60 mm의 단열재를 보강하였다. 이 때 단 열이 보강된 벽체의 열관류율(W/m²ㆍK)은?",
     "choices": [
       {
         "no": 1,
