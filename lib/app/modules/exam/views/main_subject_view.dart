@@ -50,10 +50,7 @@ class MainSubjectView extends GetView<MainSubjectController> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: ShadButton.secondary(
                   width: double.infinity,
-                  onPressed: () => Get.toNamed(
-                    Routes.mock,
-                    parameters: {'subject': sub},
-                  ),
+                  onPressed: () => Get.toNamed(Routes.mockPath(sub)),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(sub),
@@ -70,10 +67,7 @@ class MainSubjectView extends GetView<MainSubjectController> {
                 answeredCount: controller.answeredCount,
                 total: s.questions.length,
                 elapsed: controller.elapsedLabel,
-                onResume: () => Get.toNamed(
-                  Routes.mock,
-                  parameters: {'subject': sub},
-                ),
+                onResume: () => Get.toNamed(Routes.mockPath(sub)),
                 onEnd: () => _confirmEndMock(context),
               ));
             }
@@ -103,11 +97,7 @@ class MainSubjectView extends GetView<MainSubjectController> {
               (e) => _HistoryCard(
                 entry: e,
                 onTap: () => Get.toNamed(
-                  Routes.mockReview,
-                  parameters: {
-                    'subject': e.subject,
-                    'endedAt': e.endedAt.toString(),
-                  },
+                  Routes.mockReviewPath(e.subject, e.endedAt),
                 ),
               ),
             ),

@@ -113,7 +113,7 @@ class AnswerSheetController extends GetxController {
   }
 
   void goToSessionList() {
-    Get.offNamed(Routes.sessions, parameters: {'subject': subject});
+    Get.offNamed(Routes.sessionsPath(subject));
   }
 
   Future<void> goToNextSessionOrList() async {
@@ -128,10 +128,7 @@ class AnswerSheetController extends GetxController {
         goToSessionList();
         return;
       }
-      Get.offNamed(
-        Routes.sheet,
-        parameters: {'subject': subject, 'session': nextSession},
-      );
+      Get.offNamed(Routes.sheetPath(subject, nextSession));
     } catch (e, st) {
       logExamError('AnswerSheetController.goToNextSessionOrList', e, st);
       goToSessionList();

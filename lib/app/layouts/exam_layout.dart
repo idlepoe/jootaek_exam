@@ -70,7 +70,7 @@ class ExamLayout extends StatelessWidget {
     }
     if (route.startsWith('/sheet')) {
       final subject = Get.parameters['subject'] ?? '';
-      Get.offNamed(Routes.sessions, parameters: {'subject': subject});
+      Get.offNamed(Routes.sessionsPath(subject));
       return;
     }
     if (route.startsWith('/mock-review')) {
