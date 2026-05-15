@@ -29,7 +29,7 @@
         <q-item-section side>
           <div class="row items-center q-gutter-sm no-wrap">
             <div
-              class="exam-options-swatch rounded-borders"
+              class="exam-options-swatch exam-options-swatch--fixed-palette rounded-borders"
               :style="{ backgroundColor: correctHighlightHex }"
             />
             <q-icon name="chevron_right" color="grey-6" />
@@ -95,11 +95,48 @@
       </q-item>
     </q-list>
 
+    <div class="q-mt-lg">
+      <div class="text-subtitle2 text-weight-medium q-mb-xs">답안지 화면 미리보기</div>
+      <div class="text-caption text-grey-7 q-mb-sm">
+        실제 답안지·모의고사 풀이와 같은 문제 본문 클래스·하단 이전/다음 버튼(순서·높이)이
+        반영됩니다.
+      </div>
+      <q-card flat bordered class="rounded-borders overflow-hidden exam-options-sheet-preview">
+        <q-card-section class="q-pa-md">
+          <div class="q-mb-md" :class="questionTextClass" style="white-space: pre-wrap">
+            1. (예시) 시험 문제 본문은 위에서 선택한 글자 크기로 표시됩니다.
+          </div>
+          <div class="column q-gutter-sm">
+            <q-card flat bordered class="q-pa-md">
+              <div class="text-body2">
+                <span class="text-weight-bold">1.</span>
+                첫 번째 보기 문장입니다.
+              </div>
+            </q-card>
+            <q-card flat bordered class="q-pa-md exam-correct-highlight">
+              <div class="text-body2">
+                <span class="text-weight-bold">2.</span>
+                정답 보기(위에서 고른 하이라이트 색)
+              </div>
+            </q-card>
+          </div>
+        </q-card-section>
+        <ExamSheetNavToolbar
+          embedded
+          :show="true"
+          :prev-disabled="false"
+          :next-disabled="false"
+          @prev="onSheetPreviewNav"
+          @next="onSheetPreviewNav"
+        />
+      </q-card>
+    </div>
+
     <q-dialog v-model="colorDialogOpen">
-      <q-card style="min-width: 280px">
+      <q-card class="bg-white text-grey-9 exam-options-color-dialog" style="min-width: 280px">
         <q-card-section class="text-h6">정답 색 선택</q-card-section>
         <q-card-section class="q-pt-none">
-          <q-color v-model="colorDraft" default-view="palette" format-model="hex" />
+          <q-color v-model="colorDraft" default-view="palette" format-model="hex" :dark="false" />
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="취소" color="grey-8" no-caps @click="colorDialogOpen = false" />
@@ -111,7 +148,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import type {
   ExamThemeMode,
@@ -120,10 +157,15 @@ import type {
   StickyButtonOrder,
 } from 'src/exam/examUserOptions';
 import { useExamUserOptionsStore } from 'stores/exam-user-options';
+import ExamSheetNavToolbar from 'src/components/exam/ExamSheetNavToolbar.vue';
 
 const store = useExamUserOptionsStore();
 const { themeMode, correctHighlightHex, stickyButtonHeight, questionTextSize, stickyButtonOrder } =
   storeToRefs(store);
+
+const questionTextClass = computed(
+  () => `text-body1 exam-question-text--${questionTextSize.value}`,
+);
 
 const themeOptions = [
   { label: '시스템', value: 'system' as ExamThemeMode },
@@ -173,6 +215,10 @@ function onOrderChange(v: StickyButtonOrder) {
   store.patchAndPersist({ stickyButtonOrder: v });
 }
 
+function onSheetPreviewNav() {
+  /* 답안지 레이아웃 미리보기: 문항 이동 없음 */
+}
+
 function openColorDialog() {
   colorDraft.value = correctHighlightHex.value;
   colorDialogOpen.value = true;
@@ -201,12 +247,22 @@ function confirmColor() {
 </script>
 
 <style scoped>
+/* 다크 테마여도 사용자가 고른 RGB는 그대로 보이도록(브라우저 색 보정·테두리만 분기하지 않음) */
+.exam-options-swatch--fixed-palette {
+  color-scheme: light;
+  forced-color-adjust: none;
+}
 .exam-options-swatch {
   width: 28px;
   height: 28px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
-.body--dark .exam-options-swatch {
-  border-color: rgba(255, 255, 255, 0.2);
+.exam-options-color-dialog {
+  color-scheme: light;
+}
+/* 미리보기 카드: 답안지 본문 영역과 비슷한 배경 대비 */
+.exam-options-sheet-preview {
+  max-width: 100%;
 }
 </style>

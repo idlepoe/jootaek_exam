@@ -30,57 +30,13 @@
     </div>
     <div v-if="loadError" class="text-negative">{{ loadError }}</div>
 
-    <q-page-sticky v-if="!loading && questions.length > 0" position="bottom" expand>
-      <q-toolbar
-        class="bg-white text-grey-9 shadow-up-2 q-px-sm q-py-xs exam-page-sticky-toolbar"
-        :class="stickyToolbarHeightClass"
-      >
-        <template v-if="stickyButtonOrder === 'prev-next'">
-          <q-btn
-            unelevated
-            no-caps
-            class="col q-mx-xs"
-            color="grey-3"
-            text-color="grey-9"
-            label="이전"
-            :disable="index <= 0"
-            @click="prev"
-          />
-          <q-btn
-            unelevated
-            no-caps
-            class="col q-mx-xs"
-            color="primary"
-            text-color="white"
-            label="다음"
-            :disable="index >= questions.length - 1"
-            @click="next"
-          />
-        </template>
-        <template v-else>
-          <q-btn
-            unelevated
-            no-caps
-            class="col q-mx-xs"
-            color="primary"
-            text-color="white"
-            label="다음"
-            :disable="index >= questions.length - 1"
-            @click="next"
-          />
-          <q-btn
-            unelevated
-            no-caps
-            class="col q-mx-xs"
-            color="grey-3"
-            text-color="grey-9"
-            label="이전"
-            :disable="index <= 0"
-            @click="prev"
-          />
-        </template>
-      </q-toolbar>
-    </q-page-sticky>
+    <ExamSheetNavToolbar
+      :show="!loading && questions.length > 0"
+      :prev-disabled="index <= 0"
+      :next-disabled="index >= questions.length - 1"
+      @prev="prev"
+      @next="next"
+    />
   </q-page>
 </template>
 
@@ -94,6 +50,7 @@ import { readMockHistory } from 'src/exam/mockExamStorage';
 import { useExamSheetToolbarStore } from 'stores/exam-sheet-toolbar';
 import { useExamUserOptionsStore } from 'stores/exam-user-options';
 import ExamOptionalRemoteImage from 'src/components/exam/ExamOptionalRemoteImage.vue';
+import ExamSheetNavToolbar from 'src/components/exam/ExamSheetNavToolbar.vue';
 import { examChoiceImageUrl, examQuestionImageUrl } from 'src/exam/constants';
 
 const props = defineProps<{
@@ -105,13 +62,10 @@ const router = useRouter();
 const $q = useQuasar();
 const toolbarStore = useExamSheetToolbarStore();
 const examUserOpts = useExamUserOptionsStore();
-const { questionTextSize, stickyButtonHeight, stickyButtonOrder } = storeToRefs(examUserOpts);
+const { questionTextSize } = storeToRefs(examUserOpts);
 
 const questionTextClass = computed(
   () => `text-body1 exam-question-text--${questionTextSize.value}`,
-);
-const stickyToolbarHeightClass = computed(
-  () => `exam-page-sticky-toolbar--${stickyButtonHeight.value}`,
 );
 
 const loading = ref(true);

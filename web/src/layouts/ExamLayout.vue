@@ -95,7 +95,7 @@ const showBack = computed(
 
 const toolbarTitle = computed(() => {
   if (route.name === 'exam-main') {
-    return '광고없는주택관리사보1차';
+    return '광고없는주택관리사보1차기출회독';
   }
   if (route.name === 'exam-options') {
     return '설정';
