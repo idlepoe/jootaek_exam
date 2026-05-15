@@ -16,9 +16,18 @@
           class="q-pa-md"
           :class="choiceCardClass(c.no)"
         >
-          <div :class="choiceTextClass">
-            <span class="text-weight-bold">{{ c.no }}.</span>
-            {{ c.text }}
+          <div :class="[choiceTextClass, 'row items-center justify-between q-gutter-x-sm']">
+            <div class="col" style="min-width: 0">
+              <span class="text-weight-bold">{{ c.no }}.</span>
+              {{ c.text }}
+            </div>
+            <span
+              v-if="isUserPickChoiceRow(c.no)"
+              class="col-shrink text-no-wrap"
+              style="color: inherit; opacity: 0.92"
+            >
+              (선택)
+            </span>
           </div>
           <ExamOptionalRemoteImage :src="examChoiceImageUrl(current.id, c.no)" />
         </q-card>
@@ -97,8 +106,16 @@ function choiceCardClass(no: number): string | Record<string, boolean> {
   if (!q) return '';
   const ua = userAnswer.value;
   if (no === q.correct_answer) return 'exam-correct-highlight';
-  if (ua != null && no === ua && ua !== q.correct_answer) return 'bg-blue-2';
+  if (ua != null && no === ua && ua !== q.correct_answer) return 'exam-mock-choice-selected';
   return '';
+}
+
+/** 모의고사 선택(pick) 스타일이 적용된 보기(오답으로 고른 보기)에만 (선택) 표시 */
+function isUserPickChoiceRow(no: number): boolean {
+  const q = current.value;
+  const ua = userAnswer.value;
+  if (!q || ua == null) return false;
+  return no === ua && ua !== q.correct_answer;
 }
 
 const toolbarStatusLines = computed(() => {
