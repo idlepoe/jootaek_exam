@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "jootaek-exam",
+          "configurations": {
+            "web": "1:463228030791:web:e96011b5d9e1d709828662"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "web/dist/spa",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

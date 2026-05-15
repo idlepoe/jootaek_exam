@@ -30,13 +30,19 @@
     </div>
     <div v-if="loadError" class="text-negative">{{ loadError }}</div>
 
-    <ExamSheetNavToolbar
-      :show="!loading && questions.length > 0"
-      :prev-disabled="index <= 0"
-      :next-disabled="false"
-      @prev="prev"
-      @next="next"
-    />
+    <q-page-sticky
+      v-if="!loading && questions.length > 0"
+      class="exam-sheet-nav-sticky-wrap"
+      position="bottom"
+      expand
+    >
+      <ExamSheetNavToolbar
+        :prev-disabled="index <= 0"
+        :next-disabled="false"
+        @prev="prev"
+        @next="next"
+      />
+    </q-page-sticky>
   </q-page>
 </template>
 

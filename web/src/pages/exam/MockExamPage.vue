@@ -64,13 +64,19 @@
       </q-card>
     </q-dialog>
 
-    <ExamSheetNavToolbar
-      :show="!loading && questions.length > 0"
-      :prev-disabled="currentIndex <= 0"
-      :next-disabled="false"
-      @prev="prev"
-      @next="next"
-    />
+    <q-page-sticky
+      v-if="!loading && questions.length > 0"
+      class="exam-sheet-nav-sticky-wrap"
+      position="bottom"
+      expand
+    >
+      <ExamSheetNavToolbar
+        :prev-disabled="currentIndex <= 0"
+        :next-disabled="false"
+        @prev="prev"
+        @next="next"
+      />
+    </q-page-sticky>
   </q-page>
 </template>
 

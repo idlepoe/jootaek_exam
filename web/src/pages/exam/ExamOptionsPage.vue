@@ -121,14 +121,14 @@
             </q-card>
           </div>
         </q-card-section>
-        <ExamSheetNavToolbar
-          embedded
-          :show="true"
-          :prev-disabled="false"
-          :next-disabled="false"
-          @prev="onSheetPreviewNav"
-          @next="onSheetPreviewNav"
-        />
+        <div class="exam-options-sheet-preview-toolbar">
+          <ExamSheetNavToolbar
+            :prev-disabled="false"
+            :next-disabled="false"
+            @prev="onSheetPreviewNav"
+            @next="onSheetPreviewNav"
+          />
+        </div>
       </q-card>
     </div>
 
@@ -264,5 +264,8 @@ function confirmColor() {
 /* 미리보기 카드: 답안지 본문 영역과 비슷한 배경 대비 */
 .exam-options-sheet-preview {
   max-width: 100%;
+}
+.exam-options-sheet-preview-toolbar {
+  width: 100%;
 }
 </style>
