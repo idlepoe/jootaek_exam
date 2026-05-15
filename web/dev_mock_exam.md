@@ -11,7 +11,7 @@ subject 정보를 가지고 mockExam 로 진입
 
 [mockExam]
 
-해당 subject 에 해당하는 모든 jsons 문제 취득 후 subject를 기준으로 40개의 문항을 섞어서 표시
+해당 subject에 해당하는 모든 jsons 문제 취득 후 subject를 기준으로 40개의 문항을 섞어서 표시
 생성된 문항은 current_mock_exam 이름으로 localstorage에 저장
 
 subject 과목
